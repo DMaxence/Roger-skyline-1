@@ -6,10 +6,9 @@
 
 #2 : **Creation d'un user & se connecter**
 
-```
-sudo adduser [user]
-su - [user]
-```
+`sudo adduser [user]`
+
+`su - [user]`
 
 #3 : **Configuration DHCP**
 

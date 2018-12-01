@@ -19,8 +19,8 @@ modifier la derniere ligne de `iface eth0 inet dhcp` a `iface eth0 inet static`
 ajouter en dessous les lignes
 ```
 iface eth0 inet static
-	address 192.168.1.101
-	netmask 255.255.255.252
+->	address 192.168.1.101
+->	netmask 255.255.255.252
 ```
 
 #3 **Changer le port SSH**
@@ -37,7 +37,7 @@ generer une **publick keys** a l'aide de la commande `ssh-keygen`
 
 #4 **Firewall**
 
-effectuer les commandes suivantes :
+Effectuer les commandes suivantes :
 
 ```
 sudo iptables -P INPUT DROP

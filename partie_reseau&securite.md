@@ -53,3 +53,10 @@ Les deux premieres lignes vont supprimer tous les champs deja existant dans le f
 Les deux lignes du milieu vont ajouter en regle INPUT le port a accepter uniquement, on l'occurence le port SSH
 
 Les deux lignes du bas vont ajouter en regle OUTPUT le port a accepter uniquement, on l'occurence le port SSH
+
+
+/******************************************************
+*******************************************************
+******************PARTIE BOLDO*************************
+*******************************************************
+******************************************************/

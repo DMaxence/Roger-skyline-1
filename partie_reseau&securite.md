@@ -1,16 +1,18 @@
-# #1 : **Mettre a jour les paquets**
+# **Partie obligatoire**
+
+## #1 : **Mettre a jour les paquets**
 
 `sudo apt-get update`
 
 `sudo apt-get upgrade`
 
-#2 : **Creation d'un user & se connecter**
+## #2 : **Creation d'un user & se connecter**
 
 `sudo adduser [user]`
 
 `su - [user]`
 
-#3 : **Configuration DHCP**
+## #3 : **Configuration DHCP**
 
 editer le fichier `/etc/network/interfaces`
 
@@ -23,7 +25,7 @@ iface eth0 inet static
 ->	netmask 255.255.255.252
 ```
 
-#3 **Changer le port SSH**
+## #4 **Changer le port SSH**
 
 editer le fichier `/etc/ssh/sshd_config`
 
@@ -35,7 +37,7 @@ redemarrer le service ssh avec la commande suivante `sudo /etc/init.d/ssh restar
 
 generer une **publick keys** a l'aide de la commande `ssh-keygen`
 
-#4 **Firewall**
+## #5 **Firewall**
 
 Effectuer les commandes suivantes :
 
@@ -97,7 +99,7 @@ Les septieme et huitieme points autorisent la connexion sur les ports HTTP (80) 
 
 Le dernier point va autoriser les connexions au DNS, aussi bien sur le protocole TCP qu'UDP
 
-#5 **Protection DOS**
+## #6 **Protection DOS**
 
 ```
 # Bloque les paquets invalides
@@ -139,7 +141,7 @@ Le sixieme point effectue une protection contre les attaques de type Synflood
 
 Le septieme point effectue une protection contre les attaques de type Pingflood
 
-#6 **Protection de scans de ports**
+## #7 **Protection de scans de ports**
 
 ```
 # Protection scan de ports
@@ -149,11 +151,11 @@ sudo iptables -A INPUT -p tcp --tcp-flags ALL ALL -m limit --limit 1/h -j ACCEPT
 
 Ces deux lignes protegent le scan de ports
 
-#7 **Arreter les services**
+## #8 **Arreter les services**
 
 ??
 
-#8 **Script de mise a jour des packages**
+## #9 **Script de mise a jour des packages**
 
 Editer le script :
 
@@ -179,7 +181,7 @@ Afin d'automatiser son execution, on utilisa la commande crontab suivante :
 
 `??`
 
-#8 **Script de surveillance du fichier crontab**
+## #10 **Script de surveillance du fichier crontab**
 
 Editer le script :
 

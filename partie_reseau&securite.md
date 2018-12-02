@@ -1,4 +1,4 @@
-#1 : **Mettre a jour les paquets**
+# #1 : **Mettre a jour les paquets**
 
 `sudo apt-get update`
 

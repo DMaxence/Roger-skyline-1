@@ -40,7 +40,12 @@ generer une **publick keys** a l'aide de la commande `ssh-keygen`
 Effectuer les commandes suivantes :
 
 ```
-# Efface toutes les regles et tables deja existantes
+#Nettoyage des règles existantes
+iptables -t filter -F
+iptables -t filter -X
+
+# Blocage total
+sudo iptables -t filter -P INPUT DROP
 sudo iptables -t filter -P FORWARD DROP
 sudo iptables -t filter -P OUTPUT DROP
 
@@ -78,15 +83,17 @@ sudo iptables -t filter -A OUTPUT -p udp --dport 53 -j ACCEPT
 
 Les deux premieres lignes vont supprimer toutes les regles et tables deja existantes
 
-Le deuxieme point va garder les connexions deja etablies
+Le deuxieme point va bloquer par defaut toutes les connexions
 
-Le troisieme point va autoriser les loopback (systeme qui renvoie un signal recu vers son envoyeur sans traitement)
+Le troisieme point va garder les connexions deja etablies
 
-Le quatrieme point va aurotiser le ICMP (Internet Control Message Protocol), protocole de gestion d'erreur de transmission
+Le quatrieme point va autoriser les loopback (systeme qui renvoie un signal recu vers son envoyeur sans traitement)
 
-Le cinquieme point va autoriser la connexion SSH sur le port SSH definit dans un point precedent
+Le cinquieme point va aurotiser le ICMP (Internet Control Message Protocol), protocole de gestion d'erreur de transmission
 
-Les sixieme et septieme points autorisent la connexion sur les ports HTTP (80) et HTTPS (443)
+Le sixieme point va autoriser la connexion SSH sur le port SSH definit dans un point precedent
+
+Les septieme et huitieme points autorisent la connexion sur les ports HTTP (80) et HTTPS (443)
 
 Le dernier point va autoriser les connexions au DNS, aussi bien sur le protocole TCP qu'UDP
 
@@ -136,8 +143,133 @@ Le septieme point effectue une protection contre les attaques de type Pingflood
 
 ```
 # Protection scan de ports
-sudo iptables -A INPUT -p tcp --tcp-flags ALL NONE -m limit --limit 1/h -j ACCEPT
+sudo iptables -A INPUT -p tcp --tcp-flags ALL NONE -j DROP
 sudo iptables -A INPUT -p tcp --tcp-flags ALL ALL -m limit --limit 1/h -j ACCEPT
 ```
 
 Ces deux lignes protegent le scan de ports
+
+#7 **Arreter les services**
+
+??
+
+#8 **Script de mise a jour des packages**
+
+Editer le script :
+
+`sudo nano /var/log/script_log.sh`
+
+Et y mettre les lignes suivantes :
+
+```
+#!/bin/bash
+apt-get dist-upgrade >> /var/log/update_script.log
+apt-get update >> /var/log/update_script.log
+```
+
+Ne pas oublier de lui attribuer les droits d'execution :
+
+`sudo chmod 755 /var/log/script_log.sh`
+
+Ainsi que de lui donner l'utilisateur root afin qu'il n'y ai pas besoin d'utiliser sudo :
+
+`sudo chown root /var/log/script_log.sh`
+
+Afin d'automatiser son execution, on utilisa la commande crontab suivante :
+
+`??`
+
+#8 **Script de surveillance du fichier crontab**
+
+Editer le script :
+
+`sudo nano /etc/script_crontab.sh`
+
+Et y mettre les lignes suivantes :
+
+```
+#!/bin/bash
+
+if [ -f /etc/crontab_md5 ]
+then
+	oldmd5=`cat /etc/crontab_md5`
+	testmd5=`md5sum /etc/crontab`
+	if [ $oldmd5 -ne $testmd5 ]
+		mail -s 'Crontab modification' root
+	fi
+else
+	md5sum /etc/crontab > /etc/crontab_md5
+	chmod 644 /etc/crontab_md5
+fi
+exit
+```
+
+Ne pas oublier de lui attribuer les droits d'execution :
+
+`sudo chmod 755 /etc/script_crontab.sh`
+
+Ainsi que de lui donner l'utilisateur root afin qu'il n'y ai pas besoin d'utiliser sudo :
+
+`sudo chown root /etc/script_crontab.sh`
+
+Afin d'automatiser son execution, on utilisa la commande crontab suivante :
+
+`??`
+
+# **BONUS**
+
+## **Installation Apache**
+
+`sudo apt-get install apache2`
+
+Puis lancer le servie apache
+
+`sudo systemctl start apache2`
+
+## **Mise en place d'un virtual host**
+
+Creation du dossier avec le nom du host voulu
+
+`sudo mkdir -p /var/www/init.login.fr/html`
+
+Changement des droits lie au dossier
+
+`sudo chown -R $USER:$USER /var/www/init.login.fr/html`
+
+Puis pour s'assurer que le dossier possede tous les droits :
+
+`sudo chmod -R 755 /var/www/init.login.fr`
+
+Creation d'un fichier pour tester la bonne fonctionnalite du sereveur :
+
+`nano /var/www/init.login.fr/html/index.html`
+
+Pour y mettre le code suivant :
+
+```
+<html>
+    <head>
+        <title>Roger-Skyline</title>
+    </head>
+    <body>
+        <h1>Super ! Le serveur est fonctionnel</h1>
+    </body>
+</html>
+```
+
+Afin de permettre a apache fournir ce contenu, il fautl lui attribuer les bonnes instructions :
+
+`sudo nano /etc/apache2/sites-available/init.login.fr.conf`
+
+Et y mettre a l'interieur :
+
+```
+<VirtualHost *:80>
+    ServerAdmin admin@example.com
+    ServerName init.login.fr
+    ServerAlias init.login.fr
+    DocumentRoot /var/www/init.login.fr/html
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+```

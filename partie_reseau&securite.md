@@ -40,23 +40,41 @@ generer une **publick keys** a l'aide de la commande `ssh-keygen`
 Effectuer les commandes suivantes :
 
 ```
-sudo iptables -P INPUT DROP
-sudo iptables -P OUTPUT DROP
-sudo iptables -A INPUT -i lo -j ACCEPT
-sudo iptables -A INPUT -p tcp -m tcp --dport [port ssh defini dans un point precedent] -j ACCEPT
-sudo iptables -A OUTPUT -o lo -j ACCEPT
-sudo iptables -A OUTPUT -p tcp --sport [port ssh defini dans un point precedent] -m state --state ESTABLISHED -j ACCEPT
+# Efface toutes les regles et tables deja existantes
+sudo iptables -t filter -P FORWARD DROP
+sudo iptables -t filter -P OUTPUT DROP
+
+# Garder les connexions etablies
+sudo iptables -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+sudo iptables -A OUTPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+
+# Autoriser loopback
+sudo iptables -t filter -A INPUT -i lo -j ACCEPT
+sudo iptables -t filter -A OUTPUT -i lo -j ACCEPT
+
+# Autoriser ICMP
+sudo iptables -t filter -A INPUT -p icmp -j ACCEPT
+sudo iptables -t filter -A OUTPUT -p icmp -j ACCEPT
+
+# Autoriser SSH
+sudo iptables -t filter -A INPUT -p tcp --dport [port ssh] -j ACCEPT
+sudo iptables -t filter -A OUTPUT -p tcp --dport [port ssh] -j ACCEPT
+
+# Autoriser DNS
+sudo iptables -t filter -A INPUT -p tcp --dport 53 -j ACCEPT
+sudo iptables -t filter -A INPUT -p udp --dport 53 -j ACCEPT
+sudo iptables -t filter -A OUTPUT -p tcp --dport 53 -j ACCEPT
+sudo iptables -t filter -A OUTPUT -p udp --dport 53 -j ACCEPT
 ```
 
-Les deux premieres lignes vont supprimer tous les champs deja existant dans le fichier iptables
+Les deux premieres lignes vont supprimer toutes les regles et tables deja existantes
 
-Les deux lignes du milieu vont ajouter en regle INPUT le port a accepter uniquement, on l'occurence le port SSH
+Le deuxieme point va garder les connexions deja etablies
 
-Les deux lignes du bas vont ajouter en regle OUTPUT le port a accepter uniquement, on l'occurence le port SSH
+Le troisieme point va autoriser les loopback (systeme qui renvoie un signal recu vers son envoyeur sans traitement)
 
+Le quatrieme point va aurotiser le ICMP (Internet Control Message Protocol), protocole de gestion d'erreur de transmission
 
-/******************************************************
-*******************************************************
-******************PARTIE BOLDO*************************
-*******************************************************
-******************************************************/
+Le cinquieme point va autoriser la connexion SSH sur le port SSH definit dans un point precedent
+
+Le dernier point va autoriser les connexions au DNS, aussi bien sur le protocole TCP qu'UDP

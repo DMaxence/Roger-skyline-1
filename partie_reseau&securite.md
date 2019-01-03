@@ -122,6 +122,8 @@ Le dernier point va autoriser les connexions au DNS, aussi bien sur le protocole
 
 ## #6 **Protection DOS**
 
+Copier les commandes suivantes dans un fichier, executer ensuite le script cree en root
+
 ```
 # Bloque les paquets invalides
 iptables -t mangle -A PREROUTING -m conntrack --ctstate INVALID -j DROP
@@ -133,18 +135,20 @@ iptables -t mangle -A PREROUTING -p tcp ! --syn -m conntrack --ctstate NEW -j DR
 iptables -t mangle -A PREROUTING -p tcp -m conntrack --ctstate NEW -m tcpmss ! --mss 536:65535 -j DROP
 
 # Limite les nouvelles connexions
-sudo iptables -A INPUT -p tcp -m conntrack --ctstate NEW -m limit --limit 60/s --limit-burst 20 -j ACCEPT
-sudo iptables -A INPUT -p tcp -m conntrack --ctstate NEW -j DROP
+iptables -A INPUT -p tcp -m conntrack --ctstate NEW -m limit --limit 60/s --limit-burst 20 -j ACCEPT
+iptables -A INPUT -p tcp -m conntrack --ctstate NEW -j DROP
+
+# Limite les nouvelles connexions si un client possede deja 80 connexions
+iptables -A INPUT -p tcp -m connlimit --connlimit-above 80 -j REJECT --reject-with tcp-reset
 
 # Limite les connections
-sudo iptables -A INPUT -p tcp --dport 80 -m limit --limit 25/minute --limit-burst 100 -j ACCEPT
+iptables -A INPUT -p tcp --dport 80 -m limit --limit 25/minute --limit-burst 100 -j ACCEPT
 
 # Protection Synflood
-sudo iptables -A INPUT -p tcp --syn -m limit --limit 2/s --limit-burst 30 -j ACCEPT
+iptables -A INPUT -p tcp --syn -m limit --limit 2/s --limit-burst 30 -j ACCEPT
 
 # Protection Pingflood
-sudo iptables -A INPUT -p icmp --icmp-type echo-request -m limit --limit 1/s -j ACCEPT
-
+iptables -A INPUT -p icmp --icmp-type echo-request -m limit --limit 1/s -j ACCEPT
 ```
 
 Le premier point bloque les paquets invalides sur tous les ports

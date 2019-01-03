@@ -12,7 +12,7 @@
 
 `su - [user]`
 
-## #3 : **Configuration DHCP**
+## #3 : **Configuration Interfaces Reseaux**
 
 editer le fichier `/etc/network/interfaces`
 

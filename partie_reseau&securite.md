@@ -80,9 +80,9 @@ sudo iptables -A OUTPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
 sudo iptables -t filter -A INPUT -i lo -j ACCEPT
 sudo iptables -t filter -A OUTPUT -i lo -j ACCEPT
 
-# Autoriser ICMP
-sudo iptables -t filter -A INPUT -p icmp -j ACCEPT
-sudo iptables -t filter -A OUTPUT -p icmp -j ACCEPT
+# Refuser les requetes ICMP (ping)
+sudo iptables -t filter -A INPUT -p icmp -j DROP
+sudo iptables -t filter -A OUTPUT -p icmp -j DROP
 
 # Autoriser SSH
 sudo iptables -t filter -A INPUT -p tcp --dport [port ssh] -j ACCEPT

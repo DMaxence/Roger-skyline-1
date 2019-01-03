@@ -251,7 +251,7 @@ Pour y mettre les lignes suivantes :
 0 0 * * * root /root/scripts/script_crontab.sh
 ```
 
-# **BONUS**
+# **BONUS WEB**
 
 ## **Installation Apache**
 
@@ -317,3 +317,29 @@ sudo rm 000-default.conf
 sudo ln -s ../sites-available/init.login.fr.conf ./
 sudo service apache2 restart
 ```
+
+# **BONUS Deploiement**
+
+## **Installation dependances**
+
+Installation de git `sudo apt-get install git`
+
+Creation du dossier de git `sudo mkdir /git`
+
+Creation du user git `sudo adduser git`
+
+Attribution du dossier git a l'utilisateur git `sudo chown git:git /git`
+
+Connexion a l'utilisateur git `su - git`
+
+Creation d'un depot de type **bare** dans le dossier /git `git init --bare roger-skyline.git`
+
+Ajout clef ssh dans le dossier git (en etant connecte avec l'utilisateur git)
+```
+cd ~
+cp -R /home/[user_principal]/.ssh/ ~/
+```
+
+## **Mise en place d'un virtual host**
+
+Creation du dossier avec le nom du host voulu

@@ -344,7 +344,10 @@ Ajout script deploiement web auto
 ```
 cd /git/roger-skyline.git/hooks
 nano post-receive
+```
 
+Y coller : 
+```
 #!/bin/bash
 
 while read oldrev newrev ref
@@ -358,3 +361,5 @@ do
     fi
 done
 ```
+
+Puis `chmod +x post-receive`

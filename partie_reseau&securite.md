@@ -34,6 +34,8 @@ iface [2e interface] inet dhcp
 
 la 2e interface sert a donner l'acces internet a la VM
 
+Puis redemarrer la VM
+
 ## #4 **Changer le port SSH**
 
 editer le fichier `/etc/ssh/sshd_config`

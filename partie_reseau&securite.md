@@ -190,8 +190,8 @@ Et y mettre les lignes suivantes :
 
 ```
 #!/bin/bash
-apt-get dist-upgrade >> /var/log/update_script.log
 apt-get update >> /var/log/update_script.log
+apt-get upgrade >> /var/log/update_script.log
 ```
 
 Ne pas oublier de lui attribuer les droits d'execution :

@@ -21,7 +21,7 @@ modifier la derniere ligne de `iface eth0 inet dhcp` a `iface eth0 inet static`
 ajouter en dessous les lignes
 ```
 iface eth0 inet static
-->	address 192.168.1.101
+->	address 192.168.1.1
 ->	netmask 255.255.255.252
 ```
 

@@ -340,6 +340,21 @@ cd ~
 cp -R /home/[user_principal]/.ssh/ ~/
 ```
 
-## **Mise en place d'un virtual host**
+Ajout script deploiement web auto
+```
+cd /git/roger-skyline.git/hooks
+nano post-receive
 
-Creation du dossier avec le nom du host voulu
+#!/bin/bash
+
+while read oldrev newrev ref
+do
+    if [[ $ref =~ .*/master$ ]];
+    then
+        echo "Deploying master branch to production..."
+        git --work-tree=/var/www/init.login.fr --git-dir=/git/roger-skyline.git checkout -f
+    else
+        echo "Only master branch will be deployed to production"
+    fi
+done
+```

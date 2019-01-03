@@ -217,7 +217,7 @@ Pour y mettre les lignes suivantes :
 
 Editer le script :
 
-`sudo nano /etc/script_crontab.sh`
+`sudo nano /root/scripts/script_crontab.sh`
 
 Et y mettre les lignes suivantes :
 
@@ -237,18 +237,18 @@ fi
 
 Ne pas oublier de lui attribuer les droits d'execution :
 
-`sudo chmod 755 /etc/script_crontab.sh`
+`sudo chmod 755 /root/scripts/script_crontab.sh`
 
 Ainsi que de lui donner l'utilisateur root afin qu'il n'y ai pas besoin d'utiliser sudo :
 
-`sudo chown root /etc/script_crontab.sh`
+`sudo chown root /root/scripts/script_crontab.sh`
 
 Afin d'automatiser son execution, on modifie le fichier crontab en root avec la commande `crontab -e`
 
 Pour y mettre les lignes suivantes :
 
 ```
-0 0 * * * root /root/scripts/script_log.sh
+0 0 * * * root /root/scripts/script_crontab.sh
 ```
 
 # **BONUS**

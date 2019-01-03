@@ -29,9 +29,11 @@ iface eth0 inet static
 
 editer le fichier `/etc/ssh/sshd_config`
 
-modifier la ligne `#Port 22` pour mettre le port voulu
+modifier la ligne `#Port 22` pour mettre le port voulu (sans le #)
 
-modifier la ligne `#PermitRootLogin [...]` vers `#PermitRootLogin no`
+modifier la ligne `#PermitRootLogin [...]` vers `PermitRootLogin no`
+
+modifier la ligne `#PasswordAuthentication [...]` vers `PasswordAuthentication no`
 
 redemarrer le service ssh avec la commande suivante `sudo /etc/init.d/ssh restart`
 

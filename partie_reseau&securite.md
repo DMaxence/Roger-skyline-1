@@ -178,7 +178,7 @@ Ces deux lignes protegent le scan de ports
 
 ## #8 **Arreter les services**
 
-??
+Installation graphique avec aucun services superflus installes, rien a arreter
 
 ## #9 **Script de mise a jour des packages**
 

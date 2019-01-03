@@ -26,6 +26,14 @@ iface enp0s3 inet static
 ->	netmask 255.255.255.252
 ```
 
+puis effectuer la commande `ip a` afin de lister les interfaces reseaux, noter le nom de la 2e interface pour ajouter
+```
+auto [2e interface]
+iface [2e interface] inet dhcp
+```
+
+la 2e interface sert a donner l'acces internet a la VM
+
 ## #4 **Changer le port SSH**
 
 editer le fichier `/etc/ssh/sshd_config`

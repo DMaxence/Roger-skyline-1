@@ -60,7 +60,7 @@ copier le contenu du fichier `~/.ssh/id_rsa.pub` depuis la machine hote vers la 
 
 ## #5 **Firewall**
 
-Effectuer les commandes suivantes :
+Copier les commandes suivantes dans un fichier, executer ensuite le script cree en root
 
 ```
 #Nettoyage des règles existantes
@@ -168,6 +168,8 @@ Le septieme point effectue une protection contre les attaques de type Pingflood
 
 ## #7 **Protection de scans de ports**
 
+Copier les commandes suivantes dans un fichier, executer ensuite le script cree en root
+
 ```
 # Protection scan de ports
 sudo iptables -A INPUT -p tcp --tcp-flags ALL NONE -j DROP
@@ -184,7 +186,7 @@ Installation graphique avec aucun services superflus installes, rien a arreter
 
 Editer le script :
 
-`sudo nano /var/log/script_log.sh`
+`sudo nano /root/scripts/script_log.sh`
 
 Et y mettre les lignes suivantes :
 
@@ -196,15 +198,20 @@ apt-get upgrade >> /var/log/update_script.log
 
 Ne pas oublier de lui attribuer les droits d'execution :
 
-`sudo chmod 755 /var/log/script_log.sh`
+`sudo chmod 755 /root/scripts/script_log.sh`
 
 Ainsi que de lui donner l'utilisateur root afin qu'il n'y ai pas besoin d'utiliser sudo :
 
-`sudo chown root /var/log/script_log.sh`
+`sudo chown root /root/scripts/script_log.sh`
 
-Afin d'automatiser son execution, on utilisa la commande crontab suivante :
+Afin d'automatiser son execution, on modifie le fichier crontab en root avec la commande `crontab -e`
 
-`??`
+Pour y mettre les lignes suivantes :
+
+```
+0 4 * * wed root /root/scripts/script_log.sh
+@reboot root /root/scripts/script_log.sh
+```
 
 ## #10 **Script de surveillance du fichier crontab**
 
@@ -215,20 +222,17 @@ Editer le script :
 Et y mettre les lignes suivantes :
 
 ```
-#!/bin/bash
+#!/bin/sh
 
-if [ -f /etc/crontab_md5 ]
+CRON_FILE=/etc/crontab
+CHECK_FILE=/root/.crontab-checker
+
+if [ ! -f $CHECK_FILE ] || [ "`md5sum < $CRON_FILE`" != "`cat $CHECK_FILE`" ]
 then
-	oldmd5=`cat /etc/crontab_md5`
-	testmd5=`md5sum /etc/crontab`
-	if [ $oldmd5 -ne $testmd5 ]
-		mail -s 'Crontab modification' root
-	fi
-else
-	md5sum /etc/crontab > /etc/crontab_md5
-	chmod 644 /etc/crontab_md5
+    echo "The crontab file has been modified !" | mail -s "root: crontab modified" root
+    md5sum < $CRON_FILE > $CHECK_FILE;
+    chmod 700 $CHECK_FILE;
 fi
-exit
 ```
 
 Ne pas oublier de lui attribuer les droits d'execution :
@@ -239,9 +243,13 @@ Ainsi que de lui donner l'utilisateur root afin qu'il n'y ai pas besoin d'utilis
 
 `sudo chown root /etc/script_crontab.sh`
 
-Afin d'automatiser son execution, on utilisa la commande crontab suivante :
+Afin d'automatiser son execution, on modifie le fichier crontab en root avec la commande `crontab -e`
 
-`??`
+Pour y mettre les lignes suivantes :
+
+```
+0 0 * * * root /root/scripts/script_log.sh
+```
 
 # **BONUS**
 

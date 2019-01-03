@@ -126,7 +126,7 @@ Le dernier point va autoriser les connexions au DNS, aussi bien sur le protocole
 # Bloque les paquets invalides
 iptables -t mangle -A PREROUTING -m conntrack --ctstate INVALID -j DROP
 
-# Bloque les paquets non synchronisé
+# Bloque les nouveaux paquets qui n'ont pas le flag tcp syn
 iptables -t mangle -A PREROUTING -p tcp ! --syn -m conntrack --ctstate NEW -j DROP
 
 # Bloque les valeurs MSS anormal

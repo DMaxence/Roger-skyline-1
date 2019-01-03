@@ -308,3 +308,12 @@ Et y mettre a l'interieur :
     CustomLog ${APACHE_LOG_DIR}/access.log combined
 </VirtualHost>
 ```
+
+Puis l'activer a l'aide des commandes suivantes : 
+
+```
+cd /etc/apache2/sites-enabled
+sudo rm 000-default.conf
+sudo ln -s ../sites-available/init.login.fr.conf ./
+sudo service apache2 restart
+```

@@ -18,9 +18,10 @@ editer le fichier `/etc/network/interfaces`
 
 modifier la derniere ligne de `iface eth0 inet dhcp` a `iface eth0 inet static`
 
-ajouter en dessous les lignes
+modifier la partie #Primary network interfaces pour :
 ```
-iface eth0 inet static
+auto enp0s3
+iface enp0s3 inet static
 ->	address 192.168.1.1
 ->	netmask 255.255.255.252
 ```

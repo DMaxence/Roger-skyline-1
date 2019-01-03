@@ -6,11 +6,17 @@
 
 `sudo apt-get upgrade`
 
+`sudo apt-get install sudo`
+
 ## #2 : **Creation d'un user & se connecter**
 
 `sudo adduser [user]`
 
 `su - [user]`
+
+ajout de l'utilisateur dans le fichier `sudoers` qui lui permettra d'utiliser la commande **sudo**
+
+`usermod -aG sudo [user]`
 
 ## #3 : **Configuration Interfaces Reseaux**
 

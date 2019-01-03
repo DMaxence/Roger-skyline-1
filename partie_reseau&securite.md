@@ -48,7 +48,9 @@ modifier la ligne `#PasswordAuthentication [...]` vers `PasswordAuthentication n
 
 redemarrer le service ssh avec la commande suivante `sudo /etc/init.d/ssh restart`
 
-generer une **publick keys** a l'aide de la commande `ssh-keygen`
+generer une **publick keys** depuis l'hote de la VM a l'aide de la commande `ssh-keygen`
+
+copier le contenu du fichier `~/.ssh/id_rsa.pub` depuis la machine hote vers la VM dans le fichier `~/.ssh/authorized_keys` depuis la session a laquelle on souhaite se connecter
 
 ## #5 **Firewall**
 

@@ -112,7 +112,7 @@ Le troisieme point va garder les connexions deja etablies
 
 Le quatrieme point va autoriser les loopback (systeme qui renvoie un signal recu vers son envoyeur sans traitement)
 
-Le cinquieme point va aurotiser le ICMP (Internet Control Message Protocol), protocole de gestion d'erreur de transmission
+Le cinquieme point va interdire le ICMP (Internet Control Message Protocol), le Ping
 
 Le sixieme point va autoriser la connexion SSH sur le port SSH definit dans un point precedent
 

@@ -352,6 +352,7 @@ Creation du dossier de git `sudo mkdir /git`
 Creation du user git `sudo adduser git`
 
 Attribution du dossier git a l'utilisateur git `sudo chown git:git /git`
+Attribution du dossier html a l'utilisateur git `sudo chown git:git /var/www/init.login.fr/html`
 
 Connexion a l'utilisateur git `su - git`
 
@@ -378,7 +379,7 @@ do
     if [[ $ref =~ .*/master$ ]];
     then
         echo "Deploying master branch to production..."
-        git --work-tree=/var/www/init.login.fr --git-dir=/git/roger-skyline.git checkout -f
+        git --work-tree=/var/www/init.login.fr/html --git-dir=/git/roger-skyline.git checkout -f
     else
         echo "Only master branch will be deployed to production"
     fi
@@ -386,3 +387,6 @@ done
 ```
 
 Puis `chmod +x post-receive`
+
+
+Afin de tester, on clone sur la machine hote de la VM `git clone git@192.168.1.2:/git/roger-skyline.git roger`

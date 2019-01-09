@@ -178,6 +178,12 @@ sudo iptables -A INPUT -p tcp --tcp-flags ALL ALL -m limit --limit 1/h -j ACCEPT
 
 Ces deux lignes protegent le scan de ports
 
+Afin de sauvegarder toutes ces regles et de les executer au demarrage de la machine, on doitu tiliser un package externe.
+
+L'installer avec la commande `sudo apt-get install iptables-persistent`
+
+Et cliquer sur `Yes` lorsque le packet demande d'enregistrer les regles dans l'iptable
+
 ## #8 **Arreter les services**
 
 Installation graphique avec aucun services superflus installes, rien a arreter

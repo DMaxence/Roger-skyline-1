@@ -62,7 +62,7 @@ copier le contenu du fichier `~/.ssh/id_rsa.pub` depuis la machine hote vers la 
 
 Copier les commandes suivantes dans un fichier, executer ensuite le script cree en root
 
-```
+```bash
 #Nettoyage des règles existantes
 iptables -t filter -F
 iptables -t filter -X
@@ -124,7 +124,7 @@ Le dernier point va autoriser les connexions au DNS, aussi bien sur le protocole
 
 Copier les commandes suivantes dans un fichier, executer ensuite le script cree en root
 
-```
+```bash
 # Bloque les paquets invalides
 iptables -t mangle -A PREROUTING -m conntrack --ctstate INVALID -j DROP
 
@@ -170,7 +170,7 @@ Le septieme point effectue une protection contre les attaques de type Pingflood
 
 Copier les commandes suivantes dans un fichier, executer ensuite le script cree en root
 
-```
+```bash
 # Protection scan de ports
 sudo iptables -A INPUT -p tcp --tcp-flags ALL NONE -j DROP
 sudo iptables -A INPUT -p tcp --tcp-flags ALL ALL -m limit --limit 1/h -j ACCEPT
@@ -196,7 +196,7 @@ Editer le script :
 
 Et y mettre les lignes suivantes :
 
-```
+```bash
 #!/bin/bash
 apt-get update >> /var/log/update_script.log
 apt-get upgrade >> /var/log/update_script.log
@@ -227,7 +227,7 @@ Editer le script :
 
 Et y mettre les lignes suivantes :
 
-```
+```sh
 #!/bin/sh
 
 CRON_FILE=/etc/crontab
@@ -287,7 +287,7 @@ Creation d'un fichier pour tester la bonne fonctionnalite du sereveur :
 
 Pour y mettre le code suivant :
 
-```
+```html
 <html>
     <head>
         <title>Roger-Skyline</title>
@@ -317,11 +317,25 @@ Et y mettre a l'interieur :
 
 Puis l'activer a l'aide des commandes suivantes : 
 
-```
+```bash
 cd /etc/apache2/sites-enabled
 sudo rm 000-default.conf
 sudo ln -s ../sites-available/init.login.fr.conf ./
 sudo service apache2 restart
+```
+
+Afin d'activer le certificat SSL, aller dans le dossier `/etc/ssl/crt/` puis utilise la commande suivante `openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout roger.key -out roger.crt`
+
+Puis editer le fichier `/etc/apache2/sites-available/init.login.fr.conf` pour y ajouter :
+
+```
+<VirtualHost *:443>
+    DocumentRoot /var/www/init.login.fr/html
+    ServerName init.login.fr
+    SSLEngine on
+    SSLCertificateFile /etc/ssl/crt/roger.crt
+    SSLCertificateKeyFile /etc/ssl/crt/roger.key
+</VirtualHost>
 ```
 
 # **BONUS Deploiement**
@@ -341,19 +355,19 @@ Connexion a l'utilisateur git `su - git`
 Creation d'un depot de type **bare** dans le dossier /git `git init --bare roger-skyline.git`
 
 Ajout clef ssh dans le dossier git (en etant connecte avec l'utilisateur git)
-```
+```bash
 cd ~
 cp -R /home/[user_principal]/.ssh/ ~/
 ```
 
 Ajout script deploiement web auto
-```
+```bash
 cd /git/roger-skyline.git/hooks
 nano post-receive
 ```
 
 Y coller : 
-```
+```bash
 #!/bin/bash
 
 while read oldrev newrev ref

@@ -338,6 +338,9 @@ Puis editer le fichier `/etc/apache2/sites-available/init.login.fr.conf` pour y 
 </VirtualHost>
 ```
 
+Lancer la commande suivante `sudo a2enmod ssl` afin d'activer le module SSL d'apache, puis redemarrer le serveruweb `systemctl restart apache2`
+
+
 # **BONUS Deploiement**
 
 ## **Installation dependances**
